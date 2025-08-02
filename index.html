@@ -30,26 +30,46 @@
             padding: 25px;
             margin-bottom: 25px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 25px;
+            text-align: center;
         }
         
-        .logo-container img {
-            height: 70px;
-            width: auto;
-        }
-        
-        .header-content h1 {
+        .header h1 {
             font-size: 2.2em;
             color: #2d3748;
             margin-bottom: 8px;
             font-weight: 300;
         }
         
-        .header-content p {
+        .header p {
             color: #718096;
             font-size: 1.1em;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .filter-btn:hover {
+            border-color: #4299e1;
         }
         
         .categories-grid {
@@ -191,6 +211,12 @@
             color: white;
         }
         
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8em;
+            border-radius: 6px;
+        }
+        
         .add-message-btn {
             position: fixed;
             bottom: 30px;
@@ -317,33 +343,6 @@
             font-size: 0.9em;
         }
         
-        .category-filter {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn.active {
-            background: #4299e1;
-            color: white;
-            border-color: #4299e1;
-        }
-        
-        .filter-btn:hover {
-            border-color: #4299e1;
-        }
-        
         .priority-urgent {
             border-left-color: #e53e3e !important;
             background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
@@ -403,56 +402,7 @@
             flex-wrap: wrap;
         }
         
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 0.8em;
-            border-radius: 6px;
-        }
-        
-        .document-upload {
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            color: #718096;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-        
-        .document-upload:hover {
-            border-color: #4299e1;
-            background: #f7fafc;
-        }
-        
-        .document-upload.dragover {
-            border-color: #4299e1;
-            background: #ebf8ff;
-        }
-        
-        .resume-section {
-            background: #f7fafc;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid #4299e1;
-        }
-        
-        .resume-section h4 {
-            color: #2d3748;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
             .categories-grid {
                 grid-template-columns: 1fr;
             }
@@ -460,38 +410,14 @@
             .container {
                 padding: 15px;
             }
-            
-            .quick-actions {
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header-content h1 {
-                font-size: 1.8em;
-            }
-            
-            .logo-container img {
-                height: 50px;
-            }
-            
-            .category-title {
-                font-size: 1.2em;
-            }
-            
-            .category-icon {
-                font-size: 2em;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-content" style="text-align: center; width: 100%;">
-                <h1>📋 Banette Interactive</h1>
-                <p>Mission Locale Pays Basque - Échanges équipe</p>
-            </div>
+            <h1>📋 Banette Interactive</h1>
+            <p>Mission Locale Pays Basque - Échanges équipe</p>
         </div>
         
         <div class="category-filter">
@@ -524,8 +450,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('actualites', 'document')">📎 Partager un doc</button>
-                    <button class="btn btn-outline" onclick="quickPost('actualites', 'info')">ℹ️ Info rapide</button>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); quickPost('actualites', 'document')">📎 Partager un doc</button>
+                    <button class="btn btn-outline" onclick="event.stopPropagation(); quickPost('actualites', 'info')">ℹ️ Info rapide</button>
                 </div>
             </div>
             
@@ -549,8 +475,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('validation', 'validation')">✅ Demande validation</button>
-                    <button class="btn btn-outline" onclick="quickPost('validation', 'avis')">💭 Demande d'avis</button>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); quickPost('validation', 'validation')">✅ Demande validation</button>
+                    <button class="btn btn-outline" onclick="event.stopPropagation(); quickPost('validation', 'avis')">💭 Demande d'avis</button>
                 </div>
             </div>
             
@@ -574,8 +500,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('partenariat', 'contact')">📞 Nouveau contact</button>
-                    <button class="btn btn-outline" onclick="quickPost('partenariat', 'reponse')">📝 Réponse à faire</button>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); quickPost('partenariat', 'contact')">📞 Nouveau contact</button>
+                    <button class="btn btn-outline" onclick="event.stopPropagation(); quickPost('partenariat', 'reponse')">📝 Réponse à faire</button>
                 </div>
             </div>
             
@@ -599,8 +525,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('communication', 'publication')">📱 Publication</button>
-                    <button class="btn btn-outline" onclick="quickPost('communication', 'evenement')">🎪 Événement</button>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); quickPost('communication', 'publication')">📱 Publication</button>
+                    <button class="btn btn-outline" onclick="event.stopPropagation(); quickPost('communication', 'evenement')">🎪 Événement</button>
                 </div>
             </div>
             
@@ -624,8 +550,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('conversation', 'question')">❓ Question équipe</button>
-                    <button class="btn btn-outline" onclick="quickPost('conversation', 'partage')">💭 Partage d'expérience</button>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); quickPost('conversation', 'question')">❓ Question équipe</button>
+                    <button class="btn btn-outline" onclick="event.stopPropagation(); quickPost('conversation', 'partage')">💭 Partage d'expérience</button>
                 </div>
             </div>
         </div>
@@ -658,38 +584,6 @@
                         <option value="maiwenn">🌟 Maïwenn (Outillage citoyenneté, Europe, BAB Sud)</option>
                         <option value="melissa">✈️ Mélissa (Mobilité territoriale, internationale)</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>Type de message</label>
-                    <select id="messageType" onchange="toggleDocumentUpload()">
-                        <option value="text">📝 Message texte</option>
-                        <option value="document">📎 Partage de document</option>
-                    </select>
-                </div>
-                
-                <div id="documentUploadSection" style="display: none;">
-                    <div class="form-group">
-                        <label>Document à partager</label>
-                        <div class="document-upload" onclick="document.getElementById('fileInput').click()">
-                            <div>📎 Cliquez pour sélectionner un fichier</div>
-                            <div style="font-size: 0.8em; margin-top: 5px;">ou glissez-déposez ici</div>
-                        </div>
-                        <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
-                        <div id="selectedFile" style="display: none; margin-top: 10px; padding: 10px; background: #f0f7ff; border-radius: 6px;">
-                            <div id="fileName"></div>
-                            <button type="button" class="btn btn-outline btn-small" onclick="generateSummary()" style="margin-top: 8px;">
-                                🤖 Générer un résumé intelligent
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="summarySection" class="resume-section" style="display: none;">
-                        <h4>🤖 Résumé généré automatiquement</h4>
-                        <div id="generatedSummary"></div>
-                        <button type="button" class="btn btn-outline btn-small" onclick="useSummaryAsContent()">
-                            ✅ Utiliser comme contenu du message
-                        </button>
-                    </div>
                 </div>
                 <div class="form-group">
                     <label>Catégorie</label>
@@ -743,37 +637,17 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // Données en mémoire
+        // Variables globales
         let messages = [];
         let currentFilter = 'all';
         
-        // Catégories configuration
+        // Configuration des catégories
         const categories = {
-            'actualites': {
-                title: '📰 Actualités & Documents',
-                icon: '📰',
-                color: '#e53e3e'
-            },
-            'validation': {
-                title: '✅ Pour Validation',
-                icon: '✅',
-                color: '#38a169'
-            },
-            'partenariat': {
-                title: '🤝 Relations Partenariales',
-                icon: '🤝',
-                color: '#d69e2e'
-            },
-            'communication': {
-                title: '📢 Communication',
-                icon: '📢',
-                color: '#805ad5'
-            },
-            'conversation': {
-                title: '💬 Conversations',
-                icon: '💬',
-                color: '#ed8936'
-            }
+            'actualites': { title: '📰 Actualités & Documents', icon: '📰', color: '#e53e3e' },
+            'validation': { title: '✅ Pour Validation', icon: '✅', color: '#38a169' },
+            'partenariat': { title: '🤝 Relations Partenariales', icon: '🤝', color: '#d69e2e' },
+            'communication': { title: '📢 Communication', icon: '📢', color: '#805ad5' },
+            'conversation': { title: '💬 Conversations', icon: '💬', color: '#ed8936' }
         };
 
         const authors = {
@@ -783,4 +657,413 @@
             'alain': { name: 'Alain', emoji: '💻', color: '#805ad5', role: 'Engagement citoyen, numérique' },
             'cathy': { name: 'Cathy', emoji: '🌍', color: '#d69e2e', role: 'Sud PB - territoire, transfrontalier' },
             'julie': { name: 'Julie', emoji: '🌐', color: '#4299e1', role: 'Sud PB - territoire, international, citoyenneté' },
-            'bea': { name: 'Béa', emoji: '🤝', color: '#ed8936', role: '
+            'bea': { name: 'Béa', emoji: '🤝', color: '#ed8936', role: 'Transfrontalier, international' },
+            'isa': { name: 'Isa', emoji: '🗺️', color: '#38a169', role: 'Territoire, international, transfrontalier' },
+            'zigor': { name: 'Zigor', emoji: '🚀', color: '#e53e3e', role: 'Leader transfrontalier, territoire, international' },
+            'lucile': { name: 'Lucile', emoji: '📱', color: '#805ad5', role: 'Communication, digital, projets transfrontaliers' },
+            'pauline': { name: 'Pauline', emoji: '🇪🇺', color: '#4299e1', role: 'BAB Nord - citoyenneté, Europe' },
+            'zara': { name: 'Zara', emoji: '🎒', color: '#d69e2e', role: 'Outillage citoyenneté, mobilités' },
+            'maiwenn': { name: 'Maïwenn', emoji: '🌟', color: '#ed8936', role: 'Outillage citoyenneté, Europe, BAB Sud' },
+            'melissa': { name: 'Mélissa', emoji: '✈️', color: '#38a169', role: 'Mobilité territoriale, internationale' }
+        };
+        
+        // Templates de messages rapides
+        const quickTemplates = {
+            actualites: {
+                document: { title: "Document à partager", content: "J'ai un document important à partager avec l'équipe..." },
+                info: { title: "Information rapide", content: "Information à transmettre à l'équipe..." }
+            },
+            validation: {
+                validation: { title: "Demande de validation", content: "Je soumets à validation..." },
+                avis: { title: "Demande d'avis", content: "J'aimerais avoir votre avis sur..." }
+            },
+            partenariat: {
+                contact: { title: "Nouveau contact partenaire", content: "Nouveau contact établi avec..." },
+                reponse: { title: "Réponse à effectuer", content: "Il faut répondre à..." }
+            },
+            communication: {
+                publication: { title: "Publication à diffuser", content: "Proposition de publication..." },
+                evenement: { title: "Événement à organiser", content: "Événement à prévoir..." }
+            },
+            conversation: {
+                question: { title: "Question à l'équipe", content: "J'ai une question pour l'équipe..." },
+                partage: { title: "Partage d'expérience", content: "Je voulais partager avec vous..." }
+            }
+        };
+        
+        // Initialisation avec des messages d'exemple
+        function initializeData() {
+            const sampleMessages = [
+                {
+                    id: 1,
+                    author: 'amandine',
+                    category: 'actualites',
+                    title: 'Nouvelle réglementation insertion',
+                    content: 'Important : nouvelle réglementation sur l\'accompagnement des jeunes en insertion. Document en PJ.',
+                    priority: 'important',
+                    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+                    status: 'nouveau'
+                },
+                {
+                    id: 2,
+                    author: 'mathieu',
+                    category: 'validation',
+                    title: 'Validation nouveau protocole outillage',
+                    content: 'Nouveau protocole d\'outillage citoyen prêt pour validation. Merci de valider avant jeudi.',
+                    priority: 'important',
+                    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
+                    status: 'nouveau'
+                },
+                {
+                    id: 3,
+                    author: 'lucile',
+                    category: 'conversation',
+                    title: 'Retour formation communication digitale',
+                    content: 'Super formation hier ! Plein d\'outils intéressants à partager avec l\'équipe. On organise un point ?',
+                    priority: 'normal',
+                    timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+                    status: 'nouveau'
+                }
+            ];
+            
+            messages = sampleMessages;
+            updateInterface();
+        }
+        
+        // Gestion des modales
+        function openAddMessageModal() {
+            document.getElementById('messageModal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'messageModal') {
+                document.getElementById('messageForm').reset();
+            }
+        }
+        
+        function openCategory(categoryKey) {
+            const category = categories[categoryKey];
+            document.getElementById('categoryModalTitle').textContent = category.title;
+            
+            const categoryMessages = messages.filter(m => m.category === categoryKey);
+            const container = document.getElementById('categoryMessages');
+            
+            if (categoryMessages.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #718096;">
+                        <div style="font-size: 3em; margin-bottom: 15px;">${category.icon}</div>
+                        <h3>Aucun message dans cette catégorie</h3>
+                        <p>Commencez la conversation !</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = categoryMessages
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                    .map(msg => renderFullMessage(msg))
+                    .join('');
+            }
+            
+            document.getElementById('categoryModal').style.display = 'block';
+        }
+        
+        // Rendu des messages
+        function renderFullMessage(msg) {
+            const author = authors[msg.author];
+            const priorityClass = msg.priority !== 'normal' ? `priority-${msg.priority}` : '';
+            const priorityEmoji = msg.priority === 'urgent' ? '🔥' : msg.priority === 'important' ? '⚡' : '';
+            const statusBadge = getStatusBadge(msg.status || 'nouveau');
+            
+            return `
+                <div class="message-full ${priorityClass}">
+                    <div class="message-header">
+                        <div class="message-meta">
+                            <div class="author-avatar" style="background: ${author.color};">
+                                ${author.emoji}
+                            </div>
+                            <div>
+                                <div class="message-author">${author.name}${statusBadge}</div>
+                                <div style="font-size: 0.8em; color: #718096; margin-bottom: 2px;">${author.role}</div>
+                                <div class="message-time">${formatTime(msg.timestamp)}</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            ${priorityEmoji}
+                            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8em;" onclick="deleteMessage(${msg.id})">🗑️</button>
+                        </div>
+                    </div>
+                    <h3 style="margin-bottom: 10px; color: #2d3748;">${msg.title}</h3>
+                    <p style="line-height: 1.6; white-space: pre-wrap;">${msg.content}</p>
+                    <div class="message-actions">
+                        <button class="btn btn-outline btn-small" onclick="markAsRead(${msg.id})">👁️ Marquer comme lu</button>
+                        <button class="btn btn-outline btn-small" onclick="addReturn(${msg.id})">💬 Faire un retour</button>
+                        <button class="btn btn-outline btn-small" onclick="classifyMessage(${msg.id})">📂 Classer</button>
+                        ${msg.category === 'validation' ? `<button class="btn btn-primary btn-small" onclick="validateMessage(${msg.id})">✅ Valider</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderPreviewMessage(msg) {
+            const author = authors[msg.author];
+            return `
+                <div class="message-preview">
+                    <span class="message-author">${author.name}</span>
+                    <span class="message-time">${formatTime(msg.timestamp)}</span>
+                    <div>${msg.title}</div>
+                </div>
+            `;
+        }
+        
+        // Fonctions utilitaires
+        function formatTime(timestamp) {
+            const now = new Date();
+            const diff = now - new Date(timestamp);
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (minutes < 60) return `Il y a ${minutes}min`;
+            if (hours < 24) return `Il y a ${hours}h`;
+            if (days === 1) return 'Hier';
+            return `Il y a ${days}j`;
+        }
+        
+        function generateId() {
+            return Date.now() + Math.random();
+        }
+        
+        function getStatusBadge(status) {
+            const badges = {
+                'nouveau': '<span class="status-badge status-nouveau">Nouveau</span>',
+                'lu': '<span class="status-badge status-lu">Lu</span>',
+                'classe': '<span class="status-badge status-classe">Classé</span>'
+            };
+            return badges[status] || badges['nouveau'];
+        }
+        
+        // Sauvegarde de message
+        function saveMessage() {
+            const author = document.getElementById('messageAuthor').value;
+            const category = document.getElementById('messageCategory').value;
+            const title = document.getElementById('messageTitle').value.trim();
+            const content = document.getElementById('messageContent').value.trim();
+            const priority = document.getElementById('messagePriority').value;
+            
+            if (!title || !content) {
+                showNotification('Veuillez remplir le titre et le contenu', 'error');
+                return;
+            }
+            
+            const newMessage = {
+                id: generateId(),
+                author,
+                category,
+                title,
+                content,
+                priority,
+                timestamp: new Date(),
+                status: 'nouveau'
+            };
+            
+            messages.unshift(newMessage);
+            updateInterface();
+            closeModal('messageModal');
+            showNotification('Message envoyé avec succès !', 'success');
+        }
+        
+        // Actions sur les messages
+        function markAsRead(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                message.status = 'lu';
+                updateInterface();
+                showNotification('Message marqué comme lu', 'success');
+                closeModal('categoryModal');
+                setTimeout(() => openCategory(message.category), 100);
+            }
+        }
+        
+        function addReturn(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                const returnText = prompt('Votre retour sur ce message :');
+                if (returnText && returnText.trim()) {
+                    const returnMessage = {
+                        id: generateId(),
+                        author: 'amandine',
+                        category: message.category,
+                        title: `Re: ${message.title}`,
+                        content: `Retour sur "${message.title}":\n\n${returnText.trim()}`,
+                        priority: 'normal',
+                        timestamp: new Date(),
+                        status: 'nouveau'
+                    };
+                    
+                    messages.unshift(returnMessage);
+                    updateInterface();
+                    showNotification('Retour ajouté avec succès', 'success');
+                    closeModal('categoryModal');
+                    setTimeout(() => openCategory(message.category), 100);
+                }
+            }
+        }
+        
+        function classifyMessage(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                const classifications = ['📁 Archivé', '⭐ Important', '📋 À traiter', '✅ Terminé'];
+                const choice = prompt(`Classer le message dans :\n${classifications.map((c, i) => `${i+1}. ${c}`).join('\n')}\n\nEntrez le numéro (1-4) :`);
+                
+                if (choice && choice >= 1 && choice <= 4) {
+                    message.status = 'classe';
+                    message.classification = classifications[choice - 1];
+                    updateInterface();
+                    showNotification(`Message classé : ${classifications[choice - 1]}`, 'success');
+                    closeModal('categoryModal');
+                    setTimeout(() => openCategory(message.category), 100);
+                }
+            }
+        }
+        
+        function validateMessage(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                if (confirm('Valider ce message ?')) {
+                    message.status = 'classe';
+                    message.validated = true;
+                    message.validatedBy = 'amandine';
+                    message.validatedAt = new Date();
+                    updateInterface();
+                    showNotification('Message validé avec succès', 'success');
+                    closeModal('categoryModal');
+                    setTimeout(() => openCategory(message.category), 100);
+                }
+            }
+        }
+        
+        function quickPost(category, type) {
+            const template = quickTemplates[category][type];
+            
+            document.getElementById('messageCategory').value = category;
+            document.getElementById('messageTitle').value = template.title;
+            document.getElementById('messageContent').value = template.content;
+            
+            openAddMessageModal();
+        }
+        
+        // Suppression de message
+        function deleteMessage(messageId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                messages = messages.filter(m => m.id !== messageId);
+                updateInterface();
+                showNotification('Message supprimé', 'success');
+                closeModal('categoryModal');
+            }
+        }
+        
+        // Filtrage
+        function filterMessages(filter) {
+            currentFilter = filter;
+            
+            // Mise à jour des boutons de filtre
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            updateInterface();
+        }
+        
+        // Notifications
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            
+            const colors = {
+                'success': '#38a169',
+                'error': '#e53e3e',
+                'info': '#4299e1'
+            };
+            
+            notification.style.background = colors[type] || colors['success'];
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Mise à jour de l'interface
+        function updateInterface() {
+            Object.keys(categories).forEach(categoryKey => {
+                const categoryMessages = messages.filter(m => 
+                    m.category === categoryKey && 
+                    (currentFilter === 'all' || currentFilter === categoryKey)
+                );
+                
+                // Compteur
+                document.getElementById(`count-${categoryKey}`).textContent = categoryMessages.length;
+                
+                // Aperçu des messages récents
+                const previewContainer = document.getElementById(`preview-${categoryKey}`);
+                if (categoryMessages.length === 0) {
+                    previewContainer.innerHTML = `
+                        <div class="message-preview" style="opacity: 0.6;">
+                            <span class="message-author">Système</span>
+                            <span class="message-time">Maintenant</span>
+                            <div>Aucun message pour le moment</div>
+                        </div>
+                    `;
+                } else {
+                    const recentMessages = categoryMessages
+                        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                        .slice(0, 2);
+                    
+                    previewContainer.innerHTML = recentMessages
+                        .map(msg => renderPreviewMessage(msg))
+                        .join('');
+                }
+            });
+            
+            // Masquer/afficher les catégories selon le filtre
+            if (currentFilter !== 'all') {
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.style.display = 'none';
+                });
+                const targetCard = document.querySelector(`.category-card.${currentFilter}`);
+                if (targetCard) {
+                    targetCard.style.display = 'block';
+                }
+            } else {
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+        }
+        
+        // Gestion des événements
+        window.onclick = function(event) {
+            const messageModal = document.getElementById('messageModal');
+            const categoryModal = document.getElementById('categoryModal');
+            
+            if (event.target === messageModal) {
+                closeModal('messageModal');
+            }
+            if (event.target === categoryModal) {
+                closeModal('categoryModal');
+            }
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal('messageModal');
+                closeModal('categoryModal');
+            }
+        });
+        
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+        });
+    </script>
+</body>
+</html>
