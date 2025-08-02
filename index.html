@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Communication - Mission Locale Pays Basque</title>
+    <title>Banette Interactive - Mission Locale Pays Basque</title>
     <style>
         * {
             margin: 0;
@@ -75,10 +75,10 @@
         }
         
         .category-card.actualites { border-left-color: #e53e3e; }
-        .category-card.projets { border-left-color: #38a169; }
+        .category-card.validation { border-left-color: #38a169; }
         .category-card.partenariat { border-left-color: #d69e2e; }
         .category-card.communication { border-left-color: #805ad5; }
-        .category-card.idees { border-left-color: #ed8936; }
+        .category-card.conversation { border-left-color: #ed8936; }
         
         .category-header {
             display: flex;
@@ -92,26 +92,37 @@
             opacity: 0.8;
         }
         
+        .category-title-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
         .category-title {
             font-size: 1.4em;
             font-weight: 600;
             color: #2d3748;
         }
         
+        .message-count {
+            background: #4299e1;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            min-width: 24px;
+        }
+        
         .category-description {
             color: #718096;
             margin-bottom: 20px;
             line-height: 1.5;
-        }
-        
-        .message-count {
-            background: #4299e1;
-            color: white;
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 0.9em;
-            font-weight: 500;
-            margin-left: auto;
         }
         
         .recent-messages {
@@ -361,6 +372,80 @@
             transform: translateX(0);
         }
         
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .status-nouveau {
+            background: #fed7d7;
+            color: #c53030;
+        }
+        
+        .status-lu {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+        
+        .status-classe {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8em;
+            border-radius: 6px;
+        }
+        
+        .document-upload {
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .document-upload:hover {
+            border-color: #4299e1;
+            background: #f7fafc;
+        }
+        
+        .document-upload.dragover {
+            border-color: #4299e1;
+            background: #ebf8ff;
+        }
+        
+        .resume-section {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .resume-section h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -403,22 +488,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo-container">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDQwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTIwIiByeD0iMTUiIGZpbGw9IndoaXRlIi8+CjxyZWN0IHg9IjUiIHk9IjUiIHdpZHRoPSIyNDAiIGhlaWdodD0iMTEwIiByeD0iMTAiIGZpbGw9IndoaXRlIiBzdHJva2U9IiM0Mjk5ZTEiIHN0cm9rZS13aWR0aD0iMiIvPgo8cmVjdCB4PSIyNTAiIHk9IjUiIHdpZHRoPSIxNDUiIGhlaWdodD0iMTEwIiByeD0iMTAiIGZpbGw9IiMwZDc0OGMiLz4KPGNpcmNsZSBjeD0iNDAiIGN5PSIzNSIgcj0iMTIiIGZpbGw9IiNlZDE3OGYiLz4KPGNpcmNsZSBjeD0iNDAiIGN5PSI2NSIgcj0iMTIiIGZpbGw9IiM0Mjk5ZTEiLz4KPGNpcmNsZSBjeD0iNDAiIGN5PSI5NSIgcj0iMTIiIGZpbGw9IiM2YmI2ZmYiLz4KPHN0ZWNsZSBjeD0iNzAiIGN5PSI1MCIgcj0iMTIiIGZpbGw9IiNmNmU5MjMiLz4KPHR4dCB4PSI5MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzJkMzc0OCI+TWlzc2lvbiBMb2NhbGU8L3RleHQ+Cjx0ZXh0IHg9IjkwIiB5PSI2NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMmQzNzQ4Ij5QYXlzIEJhc3F1ZTwvdGV4dD4KPHR4dCB4PSI5MCIgeT0iODUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iIzcxODA5NiI+Tk9VVkVMTEUtQVFVSVRBSU5FPC90ZXh0Pgo8dGV4dCB4PSIyNjUiIHk9IjMwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IndoaXRlIj4yMDI0LTIwMjg8L3RleHQ+Cjx0ZXh0IHg9IjI2NSIgeT0iNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0id2hpdGUiPkxBQkVMTElTw4lFICE8L3RleHQ+Cjx0ZXh0IHg9IjI2NSIgeT0iNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0id2hpdGUiPkVOR0FHw4lFIFBPVVIgRVQgQVZFQzwvdGV4dD4KPHR4dCB4PSIyNjUiIHk9IjkwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IndoaXRlIj5MRVMgSkVVTkVTPC90ZXh0Pgo8L3N2Zz4K" alt="Mission Locale Pays Basque">
-            </div>
-            <div class="header-content">
-                <h1>💬 Hub Communication</h1>
-                <p>Échanges simplifiés entre Amandine et l'équipe</p>
+            <div class="header-content" style="text-align: center; width: 100%;">
+                <h1>📋 Banette Interactive</h1>
+                <p>Mission Locale Pays Basque - Échanges équipe</p>
             </div>
         </div>
         
         <div class="category-filter">
             <button class="filter-btn active" onclick="filterMessages('all')">Tout voir</button>
             <button class="filter-btn" onclick="filterMessages('actualites')">📰 Actualités</button>
-            <button class="filter-btn" onclick="filterMessages('projets')">🎯 Projets</button>
+            <button class="filter-btn" onclick="filterMessages('validation')">✅ Validation</button>
             <button class="filter-btn" onclick="filterMessages('partenariat')">🤝 Partenariats</button>
             <button class="filter-btn" onclick="filterMessages('communication')">📢 Communication</button>
-            <button class="filter-btn" onclick="filterMessages('idees')">💡 Idées</button>
+            <button class="filter-btn" onclick="filterMessages('conversation')">💬 Conversations</button>
         </div>
         
         <div class="categories-grid">
@@ -426,7 +508,7 @@
             <div class="category-card actualites" onclick="openCategory('actualites')">
                 <div class="category-header">
                     <div class="category-icon">📰</div>
-                    <div>
+                    <div class="category-title-container">
                         <div class="category-title">Actualités & Documents</div>
                         <div class="message-count" id="count-actualites">0</div>
                     </div>
@@ -447,19 +529,19 @@
                 </div>
             </div>
             
-            <!-- PROJETS & STRATÉGIE -->
-            <div class="category-card projets" onclick="openCategory('projets')">
+            <!-- POUR VALIDATION -->
+            <div class="category-card validation" onclick="openCategory('validation')">
                 <div class="category-header">
-                    <div class="category-icon">🎯</div>
-                    <div>
-                        <div class="category-title">Projets & Stratégie</div>
-                        <div class="message-count" id="count-projets">0</div>
+                    <div class="category-icon">✅</div>
+                    <div class="category-title-container">
+                        <div class="category-title">Pour Validation</div>
+                        <div class="message-count" id="count-validation">0</div>
                     </div>
                 </div>
                 <div class="category-description">
-                    Avancement projets, difficultés, stratégies, décisions comité de direction
+                    Demandes de validation, avis nécessaires, décisions à prendre par le comité de direction
                 </div>
-                <div class="recent-messages" id="preview-projets">
+                <div class="recent-messages" id="preview-validation">
                     <div class="message-preview" style="opacity: 0.6;">
                         <span class="message-author">Système</span>
                         <span class="message-time">Maintenant</span>
@@ -467,8 +549,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('projets', 'avancement')">📊 Point d'avancement</button>
-                    <button class="btn btn-outline" onclick="quickPost('projets', 'difficulte')">⚠️ Signaler difficulté</button>
+                    <button class="btn btn-primary" onclick="quickPost('validation', 'validation')">✅ Demande validation</button>
+                    <button class="btn btn-outline" onclick="quickPost('validation', 'avis')">💭 Demande d'avis</button>
                 </div>
             </div>
             
@@ -476,7 +558,7 @@
             <div class="category-card partenariat" onclick="openCategory('partenariat')">
                 <div class="category-header">
                     <div class="category-icon">🤝</div>
-                    <div>
+                    <div class="category-title-container">
                         <div class="category-title">Relations Partenariales</div>
                         <div class="message-count" id="count-partenariat">0</div>
                     </div>
@@ -501,7 +583,7 @@
             <div class="category-card communication" onclick="openCategory('communication')">
                 <div class="category-header">
                     <div class="category-icon">📢</div>
-                    <div>
+                    <div class="category-title-container">
                         <div class="category-title">Communication</div>
                         <div class="message-count" id="count-communication">0</div>
                     </div>
@@ -522,19 +604,19 @@
                 </div>
             </div>
             
-            <!-- IDÉES & DÉTENTE -->
-            <div class="category-card idees" onclick="openCategory('idees')">
+            <!-- CONVERSATIONS -->
+            <div class="category-card conversation" onclick="openCategory('conversation')">
                 <div class="category-header">
-                    <div class="category-icon">💡</div>
-                    <div>
-                        <div class="category-title">Idées & Détente</div>
-                        <div class="message-count" id="count-idees">0</div>
+                    <div class="category-icon">💬</div>
+                    <div class="category-title-container">
+                        <div class="category-title">Conversations</div>
+                        <div class="message-count" id="count-conversation">0</div>
                     </div>
                 </div>
                 <div class="category-description">
-                    Nouvelles idées, outils utiles, blagues, anecdotes pour la bonne humeur de l'équipe
+                    Échanges informels, discussions d'équipe, questions diverses, partage d'expériences
                 </div>
-                <div class="recent-messages" id="preview-idees">
+                <div class="recent-messages" id="preview-conversation">
                     <div class="message-preview" style="opacity: 0.6;">
                         <span class="message-author">Système</span>
                         <span class="message-time">Maintenant</span>
@@ -542,8 +624,8 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="btn btn-primary" onclick="quickPost('idees', 'idee')">💡 Nouvelle idée</button>
-                    <button class="btn btn-outline" onclick="quickPost('idees', 'detente')">😄 Moment détente</button>
+                    <button class="btn btn-primary" onclick="quickPost('conversation', 'question')">❓ Question équipe</button>
+                    <button class="btn btn-outline" onclick="quickPost('conversation', 'partage')">💭 Partage d'expérience</button>
                 </div>
             </div>
         </div>
@@ -561,22 +643,62 @@
                 <div class="form-group">
                     <label>Auteur</label>
                     <select id="messageAuthor">
-                        <option value="amandine">👑 Amandine (Directrice)</option>
-                        <option value="coordinateur">🎯 Coordinateur</option>
-                        <option value="conseiller1">👤 Conseiller 1</option>
-                        <option value="conseiller2">👤 Conseiller 2</option>
-                        <option value="secretaire">📋 Secrétaire</option>
-                        <option value="autre">👥 Autre membre</option>
+                        <option value="amandine">👑 Amandine (Responsable de pôle)</option>
+                        <option value="mathieu">🔧 Mathieu (Coordination outillage et innovation)</option>
+                        <option value="mam">📋 MAM (Appui terrain et labellisation)</option>
+                        <option value="alain">💻 Alain (Engagement citoyen, numérique)</option>
+                        <option value="cathy">🌍 Cathy (Sud PB - territoire, transfrontalier)</option>
+                        <option value="julie">🌐 Julie (Sud PB - territoire, international, citoyenneté)</option>
+                        <option value="bea">🤝 Béa (Transfrontalier, international)</option>
+                        <option value="isa">🗺️ Isa (Territoire, international, transfrontalier)</option>
+                        <option value="zigor">🚀 Zigor (Leader transfrontalier, territoire, international)</option>
+                        <option value="lucile">📱 Lucile (Communication, digital, projets transfrontaliers)</option>
+                        <option value="pauline">🇪🇺 Pauline (BAB Nord - citoyenneté, Europe)</option>
+                        <option value="zara">🎒 Zara (Outillage citoyenneté, mobilités)</option>
+                        <option value="maiwenn">🌟 Maïwenn (Outillage citoyenneté, Europe, BAB Sud)</option>
+                        <option value="melissa">✈️ Mélissa (Mobilité territoriale, internationale)</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Type de message</label>
+                    <select id="messageType" onchange="toggleDocumentUpload()">
+                        <option value="text">📝 Message texte</option>
+                        <option value="document">📎 Partage de document</option>
+                    </select>
+                </div>
+                
+                <div id="documentUploadSection" style="display: none;">
+                    <div class="form-group">
+                        <label>Document à partager</label>
+                        <div class="document-upload" onclick="document.getElementById('fileInput').click()">
+                            <div>📎 Cliquez pour sélectionner un fichier</div>
+                            <div style="font-size: 0.8em; margin-top: 5px;">ou glissez-déposez ici</div>
+                        </div>
+                        <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
+                        <div id="selectedFile" style="display: none; margin-top: 10px; padding: 10px; background: #f0f7ff; border-radius: 6px;">
+                            <div id="fileName"></div>
+                            <button type="button" class="btn btn-outline btn-small" onclick="generateSummary()" style="margin-top: 8px;">
+                                🤖 Générer un résumé intelligent
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="summarySection" class="resume-section" style="display: none;">
+                        <h4>🤖 Résumé généré automatiquement</h4>
+                        <div id="generatedSummary"></div>
+                        <button type="button" class="btn btn-outline btn-small" onclick="useSummaryAsContent()">
+                            ✅ Utiliser comme contenu du message
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Catégorie</label>
                     <select id="messageCategory">
                         <option value="actualites">📰 Actualités & Documents</option>
-                        <option value="projets">🎯 Projets & Stratégie</option>
+                        <option value="validation">✅ Pour Validation</option>
                         <option value="partenariat">🤝 Relations Partenariales</option>
                         <option value="communication">📢 Communication</option>
-                        <option value="idees">💡 Idées & Détente</option>
+                        <option value="conversation">💬 Conversations</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -632,9 +754,9 @@
                 icon: '📰',
                 color: '#e53e3e'
             },
-            'projets': {
-                title: '🎯 Projets & Stratégie',
-                icon: '🎯',
+            'validation': {
+                title: '✅ Pour Validation',
+                icon: '✅',
                 color: '#38a169'
             },
             'partenariat': {
@@ -647,381 +769,18 @@
                 icon: '📢',
                 color: '#805ad5'
             },
-            'idees': {
-                title: '💡 Idées & Détente',
-                icon: '💡',
+            'conversation': {
+                title: '💬 Conversations',
+                icon: '💬',
                 color: '#ed8936'
             }
         };
 
         const authors = {
-            'amandine': { name: 'Amandine', emoji: '👑', color: '#e53e3e' },
-            'coordinateur': { name: 'Coordinateur', emoji: '🎯', color: '#38a169' },
-            'conseiller1': { name: 'Conseiller 1', emoji: '👤', color: '#4299e1' },
-            'conseiller2': { name: 'Conseiller 2', emoji: '👤', color: '#805ad5' },
-            'secretaire': { name: 'Secrétaire', emoji: '📋', color: '#d69e2e' },
-            'autre': { name: 'Autre', emoji: '👥', color: '#718096' }
-        };
-        
-        // Templates de messages rapides
-        const quickTemplates = {
-            actualites: {
-                document: { title: "Document à partager", content: "J'ai un document important à partager avec l'équipe..." },
-                info: { title: "Information rapide", content: "Information à transmettre à l'équipe..." }
-            },
-            projets: {
-                avancement: { title: "Point d'avancement projet", content: "Voici le point d'avancement sur..." },
-                difficulte: { title: "Difficulté rencontrée", content: "J'ai rencontré une difficulté sur..." }
-            },
-            partenariat: {
-                contact: { title: "Nouveau contact partenaire", content: "Nouveau contact établi avec..." },
-                reponse: { title: "Réponse à effectuer", content: "Il faut répondre à..." }
-            },
-            communication: {
-                publication: { title: "Publication à diffuser", content: "Proposition de publication..." },
-                evenement: { title: "Événement à organiser", content: "Événement à prévoir..." }
-            },
-            idees: {
-                idee: { title: "Nouvelle idée", content: "J'ai une idée pour améliorer..." },
-                detente: { title: "Moment détente", content: "Pour la bonne humeur de l'équipe..." }
-            }
-        };
-        
-        // Initialisation avec quelques messages d'exemple
-        function initializeData() {
-            const sampleMessages = [
-                {
-                    id: 1,
-                    author: 'amandine',
-                    category: 'actualites',
-                    title: 'Nouvelle réglementation insertion',
-                    content: 'Important : nouvelle réglementation sur l\'accompagnement des jeunes en insertion. Document en PJ.',
-                    priority: 'important',
-                    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000) // Il y a 2h
-                },
-                {
-                    id: 2,
-                    author: 'coordinateur',
-                    category: 'projets',
-                    title: 'Avancement projet "Jeunes en action"',
-                    content: 'Le projet avance bien, 15 jeunes inscrits cette semaine. Objectif de 50 en bonne voie.',
-                    priority: 'normal',
-                    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000) // Il y a 4h
-                },
-                {
-                    id: 3,
-                    author: 'conseiller1',
-                    category: 'idees',
-                    title: 'Idée atelier CV créatif',
-                    content: 'Et si on proposait un atelier CV sous forme de jeu ? J\'ai vu ça dans une autre ML.',
-                    priority: 'normal',
-                    timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) // Hier
-                }
-            ];
-            
-            messages = sampleMessages;
-            updateInterface();
-        }
-        
-        // Gestion des modales
-        function openAddMessageModal() {
-            document.getElementById('messageModal').style.display = 'block';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'messageModal') {
-                document.getElementById('messageForm').reset();
-            }
-        }
-        
-        function openCategory(categoryKey) {
-            const category = categories[categoryKey];
-            document.getElementById('categoryModalTitle').textContent = category.title;
-            
-            const categoryMessages = messages.filter(m => m.category === categoryKey);
-            const container = document.getElementById('categoryMessages');
-            
-            if (categoryMessages.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #718096;">
-                        <div style="font-size: 3em; margin-bottom: 15px;">${category.icon}</div>
-                        <h3>Aucun message dans cette catégorie</h3>
-                        <p>Commencez la conversation !</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = categoryMessages
-                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-                    .map(msg => renderFullMessage(msg))
-                    .join('');
-            }
-            
-            document.getElementById('categoryModal').style.display = 'block';
-        }
-        
-        // Rendu des messages
-        function renderFullMessage(msg) {
-            const author = authors[msg.author];
-            const priorityClass = msg.priority !== 'normal' ? `priority-${msg.priority}` : '';
-            const priorityEmoji = msg.priority === 'urgent' ? '🔥' : msg.priority === 'important' ? '⚡' : '';
-            
-            return `
-                <div class="message-full ${priorityClass}">
-                    <div class="message-header">
-                        <div class="message-meta">
-                            <div class="author-avatar" style="background: ${author.color};">
-                                ${author.emoji}
-                            </div>
-                            <div>
-                                <div class="message-author">${author.name}</div>
-                                <div class="message-time">${formatTime(msg.timestamp)}</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            ${priorityEmoji}
-                            <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8em;" onclick="deleteMessage(${msg.id})">🗑️</button>
-                        </div>
-                    </div>
-                    <h3 style="margin-bottom: 10px; color: #2d3748;">${msg.title}</h3>
-                    <p style="line-height: 1.6; white-space: pre-wrap;">${msg.content}</p>
-                </div>
-            `;
-        }
-        
-        function renderPreviewMessage(msg) {
-            const author = authors[msg.author];
-            return `
-                <div class="message-preview">
-                    <span class="message-author">${author.name}</span>
-                    <span class="message-time">${formatTime(msg.timestamp)}</span>
-                    <div>${msg.title}</div>
-                </div>
-            `;
-        }
-        
-        // Utilitaires
-        function formatTime(timestamp) {
-            const now = new Date();
-            const diff = now - new Date(timestamp);
-            const minutes = Math.floor(diff / (1000 * 60));
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
-            if (minutes < 60) return `Il y a ${minutes}min`;
-            if (hours < 24) return `Il y a ${hours}h`;
-            if (days === 1) return 'Hier';
-            return `Il y a ${days}j`;
-        }
-        
-        function generateId() {
-            return Date.now() + Math.random();
-        }
-        
-        // Sauvegarde de message
-        function saveMessage() {
-            const author = document.getElementById('messageAuthor').value;
-            const category = document.getElementById('messageCategory').value;
-            const title = document.getElementById('messageTitle').value.trim();
-            const content = document.getElementById('messageContent').value.trim();
-            const priority = document.getElementById('messagePriority').value;
-            
-            if (!title || !content) {
-                showNotification('Veuillez remplir le titre et le contenu', 'error');
-                return;
-            }
-            
-            const newMessage = {
-                id: generateId(),
-                author,
-                category,
-                title,
-                content,
-                priority,
-                timestamp: new Date()
-            };
-            
-            messages.unshift(newMessage);
-            updateInterface();
-            closeModal('messageModal');
-            showNotification('Message envoyé avec succès !', 'success');
-        }
-        
-        // Messages rapides
-        function quickPost(category, type) {
-            const template = quickTemplates[category][type];
-            
-            document.getElementById('messageCategory').value = category;
-            document.getElementById('messageTitle').value = template.title;
-            document.getElementById('messageContent').value = template.content;
-            
-            openAddMessageModal();
-        }
-        
-        // Suppression de message
-        function deleteMessage(messageId) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
-                messages = messages.filter(m => m.id !== messageId);
-                updateInterface();
-                showNotification('Message supprimé', 'success');
-                
-                // Fermer la modal si elle est ouverte
-                closeModal('categoryModal');
-            }
-        }
-        
-        // Filtrage
-        function filterMessages(filter) {
-            currentFilter = filter;
-            
-            // Mise à jour des boutons de filtre
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            updateInterface();
-        }
-        
-        // Notifications
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.background = type === 'error' ? '#e53e3e' : '#38a169';
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Mise à jour de l'interface
-        function updateInterface() {
-            // Mise à jour des compteurs et aperçus
-            Object.keys(categories).forEach(categoryKey => {
-                const categoryMessages = messages.filter(m => 
-                    m.category === categoryKey && 
-                    (currentFilter === 'all' || currentFilter === categoryKey)
-                );
-                
-                // Compteur
-                document.getElementById(`count-${categoryKey}`).textContent = categoryMessages.length;
-                
-                // Aperçu des messages récents
-                const previewContainer = document.getElementById(`preview-${categoryKey}`);
-                if (categoryMessages.length === 0) {
-                    previewContainer.innerHTML = `
-                        <div class="message-preview" style="opacity: 0.6;">
-                            <span class="message-author">Système</span>
-                            <span class="message-time">Maintenant</span>
-                            <div>Aucun message pour le moment</div>
-                        </div>
-                    `;
-                } else {
-                    const recentMessages = categoryMessages
-                        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-                        .slice(0, 2);
-                    
-                    previewContainer.innerHTML = recentMessages
-                        .map(msg => renderPreviewMessage(msg))
-                        .join('');
-                }
-            });
-            
-            // Masquer/afficher les catégories selon le filtre
-            if (currentFilter !== 'all') {
-                document.querySelectorAll('.category-card').forEach(card => {
-                    card.style.display = 'none';
-                });
-                document.querySelector(`.category-card.${currentFilter}`).style.display = 'block';
-            } else {
-                document.querySelectorAll('.category-card').forEach(card => {
-                    card.style.display = 'block';
-                });
-            }
-        }
-        
-        // Gestion des clics en dehors des modales
-        window.onclick = function(event) {
-            const messageModal = document.getElementById('messageModal');
-            const categoryModal = document.getElementById('categoryModal');
-            
-            if (event.target === messageModal) {
-                closeModal('messageModal');
-            }
-            if (event.target === categoryModal) {
-                closeModal('categoryModal');
-            }
-        }
-        
-        // Gestion du clavier
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal('messageModal');
-                closeModal('categoryModal');
-            }
-        });
-        
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeData();
-            
-            // Auto-focus sur le titre quand la modal s'ouvre
-            const messageModal = document.getElementById('messageModal');
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.target.style.display === 'block') {
-                        setTimeout(() => {
-                            document.getElementById('messageTitle').focus();
-                        }, 100);
-                    }
-                });
-            });
-            observer.observe(messageModal, { attributes: true, attributeFilter: ['style'] });
-        });
-        
-        // Fonctionnalités supplémentaires
-        function exportMessages() {
-            const dataStr = JSON.stringify(messages, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `messages_hub_${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            URL.revokeObjectURL(url);
-        }
-        
-        function searchMessages(query) {
-            if (!query.trim()) {
-                updateInterface();
-                return;
-            }
-            
-            const filtered = messages.filter(msg => 
-                msg.title.toLowerCase().includes(query.toLowerCase()) ||
-                msg.content.toLowerCase().includes(query.toLowerCase()) ||
-                authors[msg.author].name.toLowerCase().includes(query.toLowerCase())
-            );
-            
-            // Afficher les résultats de recherche
-            console.log('Résultats de recherche:', filtered);
-        }
-        
-        // Raccourcis clavier
-        document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey || event.metaKey) {
-                switch(event.key) {
-                    case 'n':
-                        event.preventDefault();
-                        openAddMessageModal();
-                        break;
-                    case 'e':
-                        event.preventDefault();
-                        exportMessages();
-                        break;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-            '
+            'amandine': { name: 'Amandine', emoji: '👑', color: '#e53e3e', role: 'Responsable de pôle' },
+            'mathieu': { name: 'Mathieu', emoji: '🔧', color: '#38a169', role: 'Coordination outillage et innovation' },
+            'mam': { name: 'MAM', emoji: '📋', color: '#4299e1', role: 'Appui terrain et labellisation' },
+            'alain': { name: 'Alain', emoji: '💻', color: '#805ad5', role: 'Engagement citoyen, numérique' },
+            'cathy': { name: 'Cathy', emoji: '🌍', color: '#d69e2e', role: 'Sud PB - territoire, transfrontalier' },
+            'julie': { name: 'Julie', emoji: '🌐', color: '#4299e1', role: 'Sud PB - territoire, international, citoyenneté' },
+            'bea': { name: 'Béa', emoji: '🤝', color: '#ed8936', role: '
