@@ -294,6 +294,77 @@
             resize: vertical;
         }
         
+        .file-upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f7fafc;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #4299e1;
+            background: #edf2f7;
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #4299e1;
+            background: #e6f3ff;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .uploaded-files {
+            margin-top: 15px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: #f0f7ff;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4299e1;
+        }
+        
+        .file-icon {
+            font-size: 1.2em;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .file-size {
+            font-size: 0.8em;
+            color: #718096;
+        }
+        
+        .file-remove {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        
+        .file-remove:hover {
+            background: #c53030;
+        }
+        
         .close-btn {
             float: right;
             background: none;
@@ -341,6 +412,39 @@
             justify-content: center;
             font-weight: bold;
             font-size: 0.9em;
+        }
+        
+        .message-attachments {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4299e1;
+        }
+        
+        .download-btn {
+            background: #38a169;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-btn:hover {
+            background: #2f855a;
         }
         
         .priority-urgent {
@@ -604,6 +708,16 @@
                     <textarea id="messageContent" placeholder="Écrivez votre message ici..."></textarea>
                 </div>
                 <div class="form-group">
+                    <label>Documents à joindre</label>
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2em; margin-bottom: 10px;">📎</div>
+                        <div>Cliquez pour sélectionner des fichiers</div>
+                        <div style="font-size: 0.9em; color: #718096; margin-top: 5px;">ou glissez-déposez vos documents ici</div>
+                    </div>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif">
+                    <div id="uploadedFiles" class="uploaded-files"></div>
+                </div>
+                <div class="form-group">
                     <label>Priorité</label>
                     <select id="messagePriority">
                         <option value="normal">📝 Normal</option>
@@ -639,6 +753,7 @@
     <script>
         // Variables globales
         let messages = [];
+        let uploadedFiles = [];
         let currentFilter = 'all';
         
         // Configuration des catégories
@@ -691,6 +806,102 @@
             }
         };
         
+        // Gestion des fichiers
+        function setupFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.querySelector('.file-upload-area');
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Gestion du drag & drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = Array.from(e.dataTransfer.files);
+                handleFiles(files);
+            });
+        }
+        
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+        }
+        
+        function handleFiles(files) {
+            files.forEach(file => {
+                // Vérification de la taille (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`Le fichier ${file.name} est trop volumineux (max 10MB)`, 'error');
+                    return;
+                }
+                
+                const fileObj = {
+                    id: generateId(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    file: file
+                };
+                
+                uploadedFiles.push(fileObj);
+            });
+            
+            displayUploadedFiles();
+        }
+        
+        function displayUploadedFiles() {
+            const container = document.getElementById('uploadedFiles');
+            
+            if (uploadedFiles.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = uploadedFiles.map(file => `
+                <div class="file-item">
+                    <div class="file-icon">${getFileIcon(file.type)}</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button class="file-remove" onclick="removeFile('${file.id}')">×</button>
+                </div>
+            `).join('');
+        }
+        
+        function getFileIcon(type) {
+            if (type.includes('pdf')) return '📄';
+            if (type.includes('word') || type.includes('doc')) return '📝';
+            if (type.includes('excel') || type.includes('sheet')) return '📊';
+            if (type.includes('powerpoint') || type.includes('presentation')) return '📊';
+            if (type.includes('image')) return '🖼️';
+            if (type.includes('text')) return '📄';
+            return '📎';
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function removeFile(fileId) {
+            uploadedFiles = uploadedFiles.filter(file => file.id !== fileId);
+            displayUploadedFiles();
+        }
+        
         // Initialisation avec des messages d'exemple
         function initializeData() {
             const sampleMessages = [
@@ -702,7 +913,10 @@
                     content: 'Important : nouvelle réglementation sur l\'accompagnement des jeunes en insertion. Document en PJ.',
                     priority: 'important',
                     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-                    status: 'nouveau'
+                    status: 'nouveau',
+                    attachments: [
+                        { id: 1, name: 'reglementation_insertion_2024.pdf', size: '245KB', type: 'application/pdf' }
+                    ]
                 },
                 {
                     id: 2,
@@ -712,7 +926,10 @@
                     content: 'Nouveau protocole d\'outillage citoyen prêt pour validation. Merci de valider avant jeudi.',
                     priority: 'important',
                     timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
-                    status: 'nouveau'
+                    status: 'nouveau',
+                    attachments: [
+                        { id: 2, name: 'protocole_outillage_v2.docx', size: '128KB', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+                    ]
                 },
                 {
                     id: 3,
@@ -722,7 +939,8 @@
                     content: 'Super formation hier ! Plein d\'outils intéressants à partager avec l\'équipe. On organise un point ?',
                     priority: 'normal',
                     timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-                    status: 'nouveau'
+                    status: 'nouveau',
+                    attachments: []
                 }
             ];
             
@@ -733,12 +951,16 @@
         // Gestion des modales
         function openAddMessageModal() {
             document.getElementById('messageModal').style.display = 'block';
+            uploadedFiles = [];
+            displayUploadedFiles();
         }
         
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
             if (modalId === 'messageModal') {
                 document.getElementById('messageForm').reset();
+                uploadedFiles = [];
+                displayUploadedFiles();
             }
         }
         
@@ -774,6 +996,22 @@
             const priorityEmoji = msg.priority === 'urgent' ? '🔥' : msg.priority === 'important' ? '⚡' : '';
             const statusBadge = getStatusBadge(msg.status || 'nouveau');
             
+            const attachmentsHtml = msg.attachments && msg.attachments.length > 0 ? `
+                <div class="message-attachments">
+                    <h4 style="margin-bottom: 10px; color: #4a5568;">📎 Documents joints (${msg.attachments.length})</h4>
+                    ${msg.attachments.map(attachment => `
+                        <div class="attachment-item">
+                            <div class="file-icon">${getFileIcon(attachment.type)}</div>
+                            <div class="file-info">
+                                <div class="file-name">${attachment.name}</div>
+                                <div class="file-size">${attachment.size}</div>
+                            </div>
+                            <a href="#" class="download-btn" onclick="downloadFile('${attachment.id}', '${attachment.name}')">⬇️ Télécharger</a>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : '';
+            
             return `
                 <div class="message-full ${priorityClass}">
                     <div class="message-header">
@@ -794,6 +1032,7 @@
                     </div>
                     <h3 style="margin-bottom: 10px; color: #2d3748;">${msg.title}</h3>
                     <p style="line-height: 1.6; white-space: pre-wrap;">${msg.content}</p>
+                    ${attachmentsHtml}
                     <div class="message-actions">
                         <button class="btn btn-outline btn-small" onclick="markAsRead(${msg.id})">👁️ Marquer comme lu</button>
                         <button class="btn btn-outline btn-small" onclick="addReturn(${msg.id})">💬 Faire un retour</button>
@@ -806,13 +1045,25 @@
         
         function renderPreviewMessage(msg) {
             const author = authors[msg.author];
+            const hasAttachments = msg.attachments && msg.attachments.length > 0;
             return `
                 <div class="message-preview">
-                    <span class="message-author">${author.name}</span>
+                    <span class="message-author">${author.name} ${hasAttachments ? '📎' : ''}</span>
                     <span class="message-time">${formatTime(msg.timestamp)}</span>
                     <div>${msg.title}</div>
                 </div>
             `;
+        }
+        
+        // Téléchargement de fichiers (simulation)
+        function downloadFile(fileId, fileName) {
+            // Dans un vrai système, cela ferait un appel API pour télécharger le fichier
+            showNotification(`Téléchargement de ${fileName} en cours...`, 'info');
+            
+            // Simulation du téléchargement
+            setTimeout(() => {
+                showNotification(`${fileName} téléchargé avec succès !`, 'success');
+            }, 1500);
         }
         
         // Fonctions utilitaires
@@ -855,6 +1106,14 @@
                 return;
             }
             
+            // Conversion des fichiers uploadés en format de stockage
+            const attachments = uploadedFiles.map(file => ({
+                id: file.id,
+                name: file.name,
+                size: formatFileSize(file.size),
+                type: file.type
+            }));
+            
             const newMessage = {
                 id: generateId(),
                 author,
@@ -863,13 +1122,16 @@
                 content,
                 priority,
                 timestamp: new Date(),
-                status: 'nouveau'
+                status: 'nouveau',
+                attachments
             };
             
             messages.unshift(newMessage);
             updateInterface();
             closeModal('messageModal');
-            showNotification('Message envoyé avec succès !', 'success');
+            
+            const attachmentText = attachments.length > 0 ? ` avec ${attachments.length} document(s)` : '';
+            showNotification(`Message envoyé avec succès${attachmentText} !`, 'success');
         }
         
         // Actions sur les messages
@@ -897,7 +1159,8 @@
                         content: `Retour sur "${message.title}":\n\n${returnText.trim()}`,
                         priority: 'normal',
                         timestamp: new Date(),
-                        status: 'nouveau'
+                        status: 'nouveau',
+                        attachments: []
                     };
                     
                     messages.unshift(returnMessage);
@@ -1062,6 +1325,7 @@
         
         // Initialisation au chargement
         document.addEventListener('DOMContentLoaded', function() {
+            setupFileUpload();
             initializeData();
         });
     </script>
