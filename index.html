@@ -1,49 +1,1285 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- ... HEAD INCHANGÉ ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCTI Hub - Banette Collaborative</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .logo h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .user-info {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .count-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .item-card {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .item-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1em;
+            flex: 1;
+        }
+        
+        .item-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .status-nouveau { background: #fed7d7; color: #c53030; }
+        .status-urgent { background: #feb2b2; color: #742a2a; animation: pulse 2s infinite; }
+        .status-traite { background: #c6f6d5; color: #22543d; }
+        .status-attente { background: #faf089; color: #744210; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .item-content {
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .item-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #718096;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(113, 128, 150, 0.1);
+            color: #4a5568;
+            border: 1px solid rgba(113, 128, 150, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: #718096;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .quick-btn {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quick-btn:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .quick-btn-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .quick-btn-label {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 5% auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f7fafc;
+        }
+        
+        .modal-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2d3748;
+            flex: 1;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #a0aec0;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            background: #f7fafc;
+            color: #718096;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f7fafc;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: #e6f3ff;
+            transform: scale(1.02);
+        }
+        
+        .attached-files {
+            margin-top: 15px;
+        }
+        
+        .attached-file {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .file-size {
+            font-size: 0.85em;
+            color: #718096;
+        }
+        
+        .remove-file {
+            background: #f56565;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #f56565;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #718096;
+        }
+        
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .document-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #e6fffa;
+            color: #319795;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .modal-content {
+                margin: 10px;
+                max-width: calc(100% - 20px);
+            }
+        }
+        
+        .decision-urgent {
+            border-left-color: #e53e3e !important;
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+        }
+        
+        .message-nouveau {
+            border-left-color: #4299e1 !important;
+        }
+        
+        .message-traite {
+            border-left-color: #38a169 !important;
+            opacity: 0.8;
+        }
+
+        .message-with-document {
+            border-left-color: #319795 !important;
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+        }
+    </style>
 </head>
 <body>
-  <!-- ... CONTENU INCHANGÉ ... -->
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <div class="logo">
+                <h1>🎯 MCTI Hub</h1>
+                <div style="color: #718096; font-weight: 500;">Banette Collaborative - Mission Locale Pays Basque</div>
+            </div>
+            <div class="user-info">
+                <div style="font-weight: 600;">👑 Amandine</div>
+                <div style="font-size: 0.9em; opacity: 0.8;">Coordinatrice</div>
+            </div>
+        </div>
 
-  <script>
-    // ... SCRIPT EXISTANT INCHANGÉ ...
+        <div class="main-grid">
+            <!-- Messages & Infos -->
+            <div class="section">
+                <div class="section-title">
+                    📬 Messages & Infos
+                    <span class="count-badge" id="messagesCount">3</span>
+                </div>
 
-    // Ajout de la fonction handleFileSelect
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        if (file) {
-            window.selectedFile = file;
-            document.getElementById('selectedFile').style.display = 'block';
-            document.getElementById('fileName').textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' Ko)';
+                <div id="messagesList">
+                    <!-- Messages seront ajoutés ici -->
+                </div>
+
+                <div class="quick-actions">
+                    <div class="quick-btn" onclick="openMessageModal()">
+                        <div class="quick-btn-icon">📝</div>
+                        <div class="quick-btn-label">Nouveau Message / Document</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Décisions CoDir -->
+            <div class="section">
+                <div class="section-title">
+                    ⚡ Décisions CoDir
+                    <span class="count-badge" id="decisionsCount">2</span>
+                </div>
+
+                <div id="decisionsList">
+                    <!-- Décisions seront ajoutées ici -->
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" style="width: 100%;" onclick="openDecisionModal()">
+                        ➕ Nouvelle Décision
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton flottant -->
+    <button class="fab" onclick="openMessageModal()">📝</button>
+
+    <!-- Modal Message Unifié -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📝 Nouveau Message</h2>
+                <button class="close-btn" onclick="closeModal('messageModal')">&times;</button>
+            </div>
+            
+            <form id="messageForm">
+                <div class="form-group">
+                    <label class="form-label">De</label>
+                    <select class="form-select" id="messageAuthor">
+                        <option value="amandine">👑 Amandine (Coordinatrice)</option>
+                        <option value="mathieu">🔧 Mathieu (Innovation)</option>
+                        <option value="alain">💻 Alain (Numérique)</option>
+                        <option value="mam">📋 MAM (Terrain)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Titre</label>
+                    <input type="text" class="form-input" id="messageTitle" placeholder="Sujet du message">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" id="messageContent" placeholder="Votre message..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Documents joints (optionnel)</label>
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size: 2em; margin-bottom: 10px;">📎</div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Cliquez pour sélectionner des fichiers</div>
+                        <div style="font-size: 0.9em; color: #718096;">ou glissez-déposez vos documents ici</div>
+                        <div style="font-size: 0.85em; color: #a0aec0; margin-top: 8px;">PDF, Word, Excel, PowerPoint, Images</div>
+                    </div>
+                    <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif" onchange="handleFileSelect()">
+                    
+                    <div id="attachedFiles" class="attached-files"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Priorité</label>
+                    <select class="form-select" id="messagePriority">
+                        <option value="normal">📝 Normal</option>
+                        <option value="important">⚡ Important</option>
+                        <option value="urgent">🔥 Urgent</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('messageModal')">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="createMessage()">📤 Envoyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Décision -->
+    <div id="decisionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">⚡ Nouvelle Décision CoDir</h2>
+                <button class="close-btn" onclick="closeModal('decisionModal')">&times;</button>
+            </div>
+            
+            <form id="decisionForm">
+                <div class="form-group">
+                    <label class="form-label">Sujet</label>
+                    <input type="text" class="form-input" id="decisionTitle" placeholder="Décision à prendre">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" id="decisionContent" placeholder="Contexte et enjeux..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Échéance</label>
+                    <input type="date" class="form-input" id="decisionDeadline">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Urgence</label>
+                    <select class="form-select" id="decisionUrgency">
+                        <option value="normal">📅 Normal</option>
+                        <option value="important">⚡ Important</option>
+                        <option value="urgent">🔥 Urgent</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('decisionModal')">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="createDecision()">📋 Soumettre</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Données
+        let messages = [];
+        let decisions = [];
+        let attachedFiles = [];
+
+        // Équipe
+        const team = {
+            'amandine': { name: 'Amandine', emoji: '👑', role: 'Coordinatrice' },
+            'mathieu': { name: 'Mathieu', emoji: '🔧', role: 'Innovation' },
+            'alain': { name: 'Alain', emoji: '💻', role: 'Numérique' },
+            'mam': { name: 'MAM', emoji: '📋', role: 'Terrain' }
+        };
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSampleData();
+            updateDisplay();
+            setupDragAndDrop();
+        });
+
+        function loadSampleData() {
+            messages = [
+                {
+                    id: 1,
+                    author: 'mathieu',
+                    title: 'Nouveaux outils numériques',
+                    content: 'Je propose qu\'on teste les nouvelles plateformes d\'accompagnement numérique. J\'ai identifié 3 outils intéressants.',
+                    priority: 'important',
+                    status: 'nouveau',
+                    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+                    attachments: []
+                },
+                {
+                    id: 2,
+                    author: 'alain',
+                    title: 'Formation équipe IA + Documentation',
+                    content: 'Opportunité formation sur l\'IA appliquée à l\'accompagnement des jeunes. Date limite inscription : vendredi. J\'ai joint le programme détaillé.',
+                    priority: 'urgent',
+                    status: 'nouveau',
+                    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
+                    attachments: [
+                        { name: 'Programme_Formation_IA.pdf', size: 245760 },
+                        { name: 'Formulaire_Inscription.docx', size: 87432 }
+                    ]
+                },
+                {
+                    id: 3,
+                    author: 'mam',
+                    title: 'Retour terrain - nouvelles problématiques',
+                    content: 'Émergence de nouvelles problématiques chez les jeunes liées au logement. Besoin d\'adapter nos outils. Rapport d\'analyse en pièce jointe.',
+                    priority: 'important',
+                    status: 'nouveau',
+                    timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+                    attachments: [
+                        { name: 'Rapport_Logement_Jeunes_2024.pdf', size: 1234567 }
+                    ]
+                }
+            ];
+
+            decisions = [
+                {
+                    id: 1,
+                    title: 'Budget formation numérique',
+                    content: 'Validation envelope 15K€ pour formations équipe sur nouveaux outils numériques',
+                    deadline: '2024-11-15',
+                    urgency: 'urgent',
+                    status: 'attente',
+                    timestamp: new Date()
+                },
+                {
+                    id: 2,
+                    title: 'Partenariat École Supérieure',
+                    content: 'Convention avec EPSI pour stages étudiants et projets innovation',
+                    deadline: '2024-11-20',
+                    urgency: 'normal',
+                    status: 'attente',
+                    timestamp: new Date()
+                }
+            ];
         }
-    }
 
-    // Ajout de la fonction removeSelectedFile
-    function removeSelectedFile() {
-        window.selectedFile = null;
-        document.getElementById('selectedFile').style.display = 'none';
-    }
+        function setupDragAndDrop() {
+            const uploadArea = document.querySelector('.file-upload-area');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
 
-    // Ajout de la fonction downloadFile
-    function downloadFile(fileId, fileName) {
-        const message = messages.find(m => m.fileId === fileId);
-        if (message && window.selectedFile) {
-            const blob = new Blob([window.selectedFile], { type: message.fileType });
-            const url = URL.createObjectURL(blob);
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
 
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName || 'document';
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            URL.revokeObjectURL(url);
-            showNotification('Téléchargement lancé', 'success');
-        } else {
-            showNotification('Fichier introuvable', 'error');
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                uploadArea.classList.add('dragover');
+            }
+
+            function unhighlight() {
+                uploadArea.classList.remove('dragover');
+            }
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
         }
-    }
-  </script>
+
+        function handleFiles(files) {
+            ([...files]).forEach(addFileToAttachments);
+        }
+
+        function updateDisplay() {
+            updateMessages();
+            updateDecisions();
+            updateCounts();
+        }
+
+        function updateMessages() {
+            const container = document.getElementById('messagesList');
+            
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>Aucun message</h3>
+                        <p>Commencez la conversation !</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = messages
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .map(msg => `
+                    <div class="item-card message-${msg.status} ${msg.attachments && msg.attachments.length > 0 ? 'message-with-document' : ''}" onclick="openMessage(${msg.id})">
+                        <div class="item-header">
+                            <div class="item-title">
+                                ${msg.title}
+                                ${msg.attachments && msg.attachments.length > 0 ? `<span class="document-indicator">📎 ${msg.attachments.length} doc${msg.attachments.length > 1 ? 's' : ''}</span>` : ''}
+                            </div>
+                            <div class="item-status status-${msg.priority === 'urgent' ? 'urgent' : msg.status}">
+                                ${msg.priority === 'urgent' ? '🔥 Urgent' : 
+                                  msg.priority === 'important' ? '⚡ Important' : 
+                                  msg.status === 'traite' ? '✅ Traité' : '📝 Nouveau'}
+                            </div>
+                        </div>
+                        <div class="item-content">${msg.content.substring(0, 120)}${msg.content.length > 120 ? '...' : ''}</div>
+                        ${msg.attachments && msg.attachments.length > 0 ? `
+                            <div style="margin: 10px 0; font-size: 0.9em; color: #319795;">
+                                📎 Fichiers: ${msg.attachments.map(att => att.name).join(', ')}
+                            </div>
+                        ` : ''}
+                        <div class="item-meta">
+                            <div class="author-info">
+                                <div class="author-avatar">${team[msg.author].emoji}</div>
+                                <span>${team[msg.author].name}</span>
+                            </div>
+                            <span>${formatTime(msg.timestamp)}</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-success" onclick="event.stopPropagation(); markAsProcessed(${msg.id})">✅ Traité</button>
+                            <button class="btn btn-secondary" onclick="event.stopPropagation(); replyToMessage(${msg.id})">💬 Répondre</button>
+                            <button class="btn btn-danger" onclick="event.stopPropagation(); deleteMessage(${msg.id})">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function updateDecisions() {
+            const container = document.getElementById('decisionsList');
+            
+            if (decisions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚡</div>
+                        <h3>Aucune décision</h3>
+                        <p>Tout est sous contrôle !</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = decisions.map(decision => `
+                <div class="item-card ${decision.urgency === 'urgent' ? 'decision-urgent' : ''}">
+                    <div class="item-header">
+                        <div class="item-title">${decision.title}</div>
+                        <div class="item-status status-${decision.urgency === 'urgent' ? 'urgent' : 'attente'}">
+                            ${decision.urgency === 'urgent' ? '🔥 Urgent' : '⏰ En attente'}
+                        </div>
+                    </div>
+                    <div class="item-content">${decision.content}</div>
+                    <div class="item-meta">
+                        <span>📅 Échéance: ${formatDate(decision.deadline)}</span>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-primary" onclick="prepareCodir(${decision.id})">📋 Préparer CoDir</button>
+                        <button class="btn btn-success" onclick="validateDecision(${decision.id})">✅ Validé</button>
+                        <button class="btn btn-danger" onclick="deleteDecision(${decision.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateCounts() {
+            document.getElementById('messagesCount').textContent = messages.filter(m => m.status === 'nouveau').length;
+            document.getElementById('decisionsCount').textContent = decisions.filter(d => d.status === 'attente').length;
+        }
+
+        // Gestion des fichiers
+        function handleFileSelect() {
+            const fileInput = document.getElementById('fileInput');
+            handleFiles(fileInput.files);
+        }
+
+        function addFileToAttachments(file) {
+            // Vérifier si le fichier n'est pas déjà attaché
+            if (attachedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                showNotification('Ce fichier est déjà attaché', 'error');
+                return;
+            }
+
+            attachedFiles.push(file);
+            updateAttachedFilesDisplay();
+        }
+
+        function updateAttachedFilesDisplay() {
+            const container = document.getElementById('attachedFiles');
+            
+            if (attachedFiles.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = attachedFiles.map((file, index) => `
+                <div class="attached-file">
+                    <div style="font-size: 1.2em; color: #319795;">📎</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button class="remove-file" onclick="removeFile(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            attachedFiles.splice(index, 1);
+            updateAttachedFilesDisplay();
+        }
+
+        // Actions sur les messages
+        function openMessage(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                const author = team[message.author];
+                let messageText = `📬 Message de ${author.name}\n\n${message.title}\n\n${message.content}`;
+                
+                if (message.attachments && message.attachments.length > 0) {
+                    messageText += `\n\n📎 Fichiers joints:\n${message.attachments.map(att => `• ${att.name} (${formatFileSize(att.size)})`).join('\n')}`;
+                }
+                
+                alert(messageText);
+            }
+        }
+
+        function markAsProcessed(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                message.status = 'traite';
+                updateDisplay();
+                showNotification('Message marqué comme traité ✅');
+            }
+        }
+
+        function replyToMessage(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                document.getElementById('messageTitle').value = `Re: ${message.title}`;
+                document.getElementById('messageContent').value = `\n\n--- Réponse au message de ${team[message.author].name} ---\n"${message.content}"\n\n`;
+                openMessageModal();
+            }
+        }
+
+        function deleteMessage(messageId) {
+            if (confirm('Supprimer ce message ?')) {
+                messages = messages.filter(m => m.id !== messageId);
+                updateDisplay();
+                showNotification('Message supprimé 🗑️');
+            }
+        }
+
+        // Actions sur les décisions
+        function prepareCodir(decisionId) {
+            const decision = decisions.find(d => d.id === decisionId);
+            if (decision) {
+                showNotification('Préparation du dossier CoDir en cours... 📋');
+                setTimeout(() => {
+                    alert(`📋 Dossier CoDir préparé:\n\n${decision.title}\n\nPoints à aborder:\n- Contexte et enjeux\n- Options proposées\n- Recommandations\n- Impact budgétaire\n\nDocument envoyé à la direction.`);
+                }, 1000);
+            }
+        }
+
+        function validateDecision(decisionId) {
+            if (confirm('Marquer cette décision comme validée ?')) {
+                decisions = decisions.filter(d => d.id !== decisionId);
+                updateDisplay();
+                showNotification('Décision validée ✅');
+            }
+        }
+
+        function deleteDecision(decisionId) {
+            if (confirm('Supprimer cette décision ?')) {
+                decisions = decisions.filter(d => d.id !== decisionId);
+                updateDisplay();
+                showNotification('Décision supprimée 🗑️');
+            }
+        }
+
+        // Gestion des modales
+        function openMessageModal() {
+            document.getElementById('messageModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openDecisionModal() {
+            document.getElementById('decisionModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Reset des formulaires
+            const form = document.querySelector(`#${modalId} form`);
+            if (form) form.reset();
+            
+            // Reset des fichiers attachés
+            if (modalId === 'messageModal') {
+                attachedFiles = [];
+                updateAttachedFilesDisplay();
+            }
+        }
+
+        // Création de message avec fichiers
+        function createMessage() {
+            const author = document.getElementById('messageAuthor').value;
+            const title = document.getElementById('messageTitle').value.trim();
+            const content = document.getElementById('messageContent').value.trim();
+            const priority = document.getElementById('messagePriority').value;
+
+            if (!title || !content) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+
+            const newMessage = {
+                id: Date.now(),
+                author,
+                title,
+                content,
+                priority,
+                status: 'nouveau',
+                timestamp: new Date(),
+                attachments: attachedFiles.map(file => ({
+                    name: file.name,
+                    size: file.size,
+                    type: file.type
+                }))
+            };
+
+            messages.unshift(newMessage);
+            updateDisplay();
+            closeModal('messageModal');
+            
+            let successMessage = 'Message envoyé avec succès! 📤';
+            if (attachedFiles.length > 0) {
+                successMessage += ` (${attachedFiles.length} fichier${attachedFiles.length > 1 ? 's' : ''} joint${attachedFiles.length > 1 ? 's' : ''})`;
+            }
+            showNotification(successMessage);
+        }
+
+        // Création de décision
+        function createDecision() {
+            const title = document.getElementById('decisionTitle').value.trim();
+            const content = document.getElementById('decisionContent').value.trim();
+            const deadline = document.getElementById('decisionDeadline').value;
+            const urgency = document.getElementById('decisionUrgency').value;
+
+            if (!title || !content || !deadline) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+
+            const newDecision = {
+                id: Date.now(),
+                title,
+                content,
+                deadline,
+                urgency,
+                status: 'attente',
+                timestamp: new Date()
+            };
+
+            decisions.unshift(newDecision);
+            updateDisplay();
+            closeModal('decisionModal');
+            showNotification('Décision soumise au CoDir! ⚡');
+        }
+
+        // Fonctions utilitaires
+        function formatTime(date) {
+            const now = new Date();
+            const diff = now - new Date(date);
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            if (minutes < 60) return `Il y a ${minutes}min`;
+            if (hours < 24) return `Il y a ${hours}h`;
+            if (days === 1) return 'Hier';
+            if (days < 7) return `Il y a ${days}j`;
+            
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = date - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+            if (days < 0) return '⚠️ Dépassée';
+            if (days === 0) return '🔥 Aujourd\'hui';
+            if (days === 1) return '⚡ Demain';
+            if (days <= 7) return `📅 J-${days}`;
+            
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+
+            text.textContent = message;
+            notification.className = `notification ${type} show`;
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Gestion des événements globaux
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target.id);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
+
+        // Auto-refresh des données (simulation)
+        setInterval(function() {
+            // Simuler l'arrivée d'un nouveau message occasionnellement
+            if (Math.random() < 0.1) { // 10% de chance toutes les 10 secondes
+                const randomMessages = [
+                    {
+                        author: 'mathieu',
+                        title: 'Mise à jour outils',
+                        content: 'Nouvelle version disponible pour la plateforme d\'accompagnement.',
+                        priority: 'normal',
+                        attachments: []
+                    },
+                    {
+                        author: 'alain',
+                        title: 'Retour formation avec ressources',
+                        content: 'Excellent retour sur la formation IA. Prêt à partager avec l\'équipe. Documents de synthèse joints.',
+                        priority: 'normal',
+                        attachments: [
+                            { name: 'Synthese_Formation_IA.pdf', size: 156432, type: 'application/pdf' },
+                            { name: 'Ressources_Complementaires.zip', size: 2341567, type: 'application/zip' }
+                        ]
+                    },
+                    {
+                        author: 'mam',
+                        title: 'Nouveau partenaire + Convention',
+                        content: 'Contact établi avec une nouvelle entreprise pour les stages. Convention type en pièce jointe.',
+                        priority: 'important',
+                        attachments: [
+                            { name: 'Convention_Stage_Type.docx', size: 98765, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+                        ]
+                    }
+                ];
+
+                const randomMessage = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+                
+                // Vérifier qu'on n'a pas déjà ce message
+                if (!messages.some(m => m.title === randomMessage.title)) {
+                    messages.unshift({
+                        id: Date.now(),
+                        ...randomMessage,
+                        status: 'nouveau',
+                        timestamp: new Date()
+                    });
+                    updateDisplay();
+                    showNotification(`💌 Nouveau message de ${team[randomMessage.author].name}`);
+                }
+            }
+        }, 10000); // Vérification toutes les 10 secondes
+
+        // Raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'm':
+                        e.preventDefault();
+                        openMessageModal();
+                        break;
+                    case 'd':
+                        e.preventDefault();
+                        openDecisionModal();
+                        break;
+                }
+            }
+        });
+
+        // Fonction de recherche rapide (bonus)
+        function quickSearch(query) {
+            const searchResults = messages.filter(m => 
+                m.title.toLowerCase().includes(query.toLowerCase()) ||
+                m.content.toLowerCase().includes(query.toLowerCase()) ||
+                (m.attachments && m.attachments.some(att => att.name.toLowerCase().includes(query.toLowerCase())))
+            );
+            
+            if (searchResults.length > 0) {
+                console.log(`🔍 ${searchResults.length} résultat(s) pour "${query}"`);
+                return searchResults;
+            } else {
+                console.log(`❌ Aucun résultat pour "${query}"`);
+                return [];
+            }
+        }
+
+        // Console helper
+        console.log(`
+🎯 MCTI Hub - Version Unifiée
+📝 Message + Documents fusionnés
+
+Commandes disponibles:
+- Ctrl+M : Nouveau message/document
+- Ctrl+D : Nouvelle décision  
+- quickSearch("terme") : Recherche rapide
+
+📊 Status:
+- Messages: ${messages.length}
+- Décisions: ${decisions.length}
+
+✨ Nouvelles fonctionnalités:
+- Glisser-déposer de fichiers
+- Support multi-fichiers
+- Indicateurs visuels des documents
+- Messages avec/sans pièces jointes unifiés
+        `);
+    </script>
 </body>
 </html>
